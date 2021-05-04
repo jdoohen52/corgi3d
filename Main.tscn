@@ -1,0 +1,216 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Grid.png" type="Texture" id=1]
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
+
+[sub_resource type="CubeMesh" id=1]
+
+[sub_resource type="VisualShaderNodeInput" id=2]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeTexture" id=3]
+texture = ExtResource( 1 )
+
+[sub_resource type="VisualShaderNodeVectorOp" id=4]
+default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 60, 40, 1 ) ]
+operator = 2
+
+[sub_resource type="VisualShader" id=5]
+code = "shader_type spatial;
+render_mode specular_schlick_ggx;
+
+uniform sampler2D tex_frg_3;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Input:2
+	vec3 n_out2p0 = vec3(UV, 0.0);
+
+// VectorOp:4
+	vec3 n_in4p1 = vec3(60.00000, 40.00000, 1.00000);
+	vec3 n_out4p0 = n_out2p0 * n_in4p1;
+
+// Texture:3
+	vec4 tex_frg_3_read = texture(tex_frg_3, n_out4p0.xy);
+	vec3 n_out3p0 = tex_frg_3_read.rgb;
+	float n_out3p1 = tex_frg_3_read.a;
+
+// Output:0
+	ALBEDO = n_out3p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( 12, 10 )
+nodes/fragment/0/position = Vector2( 560, 60 )
+nodes/fragment/2/node = SubResource( 2 )
+nodes/fragment/2/position = Vector2( 40, 60 )
+nodes/fragment/3/node = SubResource( 3 )
+nodes/fragment/3/position = Vector2( 380, 60 )
+nodes/fragment/4/node = SubResource( 4 )
+nodes/fragment/4/position = Vector2( 200, 60 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 4, 0, 4, 0, 3, 0, 3, 0, 0, 0 )
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+
+[sub_resource type="ConcavePolygonShape" id=7]
+data = PoolVector3Array( -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1 )
+
+[sub_resource type="ProceduralSky" id=8]
+ground_bottom_color = Color( 0.294118, 0.54902, 0.67451, 1 )
+ground_horizon_color = Color( 0.454902, 0.654902, 0.698039, 1 )
+sun_longitude = -36.0
+
+[sub_resource type="Environment" id=9]
+background_mode = 2
+background_sky = SubResource( 8 )
+glow_enabled = true
+glow_intensity = 7.1
+glow_strength = 0.61
+glow_bloom = 0.12
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=10]
+
+[node name="Main" type="Spatial"]
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 43.5536, 0, 0, 0, 0.0360936, 0, 0, 0, 43.5536, -0.0281998, -0.0391666, 0.0149878 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 6 )
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
+shape = SubResource( 7 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 1.03422, 0, 0, 0, 1.27706, 0, 0, 0, 1.03422, 0, 1.01414, 4.61933 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance2/StaticBody"]
+shape = SubResource( 7 )
+
+[node name="MeshInstance6" type="MeshInstance" parent="."]
+transform = Transform( 0.458523, 0, 0, 0, 2.3127, 0, 0, 0, 3.65323, -11.7294, 1.93513, -4.30022 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance6"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance6/StaticBody"]
+shape = SubResource( 7 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.08233, 1.11549, 11.2005 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance3"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance3/StaticBody"]
+shape = SubResource( 7 )
+
+[node name="MeshInstance4" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.04551, 1.11549, 19.8544 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance4"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance4/StaticBody"]
+shape = SubResource( 7 )
+
+[node name="MeshInstance5" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13.6941, 1.11549, 9.8138 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance5"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance5/StaticBody"]
+shape = SubResource( 7 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( -0.829081, 0.311429, -0.464368, -0.0172758, 0.815855, 0.577998, 0.558862, 0.487229, -0.671029, 0, 23.9287, 0 )
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 9 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+
+[node name="AnimationTree" parent="Player" index="3"]
+parameters/run_scale/scale = 5.0
+parameters/strafe/9/playback = SubResource( 10 )
+parameters/walk_scale/scale = 3.0
+
+[node name="W" parent="Player/Status" index="0"]
+margin_left = 549.978
+margin_top = 72.933
+margin_right = 601.978
+margin_bottom = 126.933
+
+[node name="A" parent="Player/Status" index="1"]
+margin_left = 486.978
+margin_top = 136.433
+margin_right = 538.978
+margin_bottom = 190.433
+
+[node name="S" parent="Player/Status" index="2"]
+margin_left = 549.978
+margin_top = 136.433
+margin_right = 601.978
+margin_bottom = 190.433
+
+[node name="D" parent="Player/Status" index="3"]
+margin_left = 612.478
+margin_top = 136.433
+margin_right = 664.478
+margin_bottom = 190.433
+
+[node name="Space" parent="Player/Status" index="4"]
+margin_left = 715.978
+margin_top = 136.933
+margin_right = 843.978
+margin_bottom = 190.933
+rect_pivot_offset = Vector2( -333.978, -160.933 )
+
+[node name="Aim" parent="Player/Status" index="5"]
+margin_left = 910.115
+margin_top = 136.52
+margin_right = 978.115
+margin_bottom = 190.52
+
+[node name="Label2" parent="Player/Status" index="8"]
+margin_left = 496.618
+margin_top = 235.497
+margin_right = 536.618
+margin_bottom = 249.497
+
+[node name="Label3" parent="Player/Status" index="9"]
+margin_left = 496.618
+margin_top = 263.052
+margin_right = 536.618
+margin_bottom = 277.052
+
+[node name="Label4" parent="Player/Status" index="10"]
+margin_left = 496.618
+margin_top = 291.561
+margin_right = 536.618
+margin_bottom = 305.561
+
+[editable path="Player"]
